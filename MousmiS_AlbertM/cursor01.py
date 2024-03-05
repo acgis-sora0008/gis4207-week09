@@ -1,5 +1,6 @@
 import arcpy
 
+
 shapefile_path = r"../../../data/Canada/Can_Mjr_Cities.shp"
 
 with arcpy.da.SearchCursor(shapefile_path, ["Name", "Prov"]) as cursor:

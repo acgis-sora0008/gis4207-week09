@@ -1,31 +1,29 @@
 import arcpy
+from arcpy import env
 import sys
 
 if len(sys.argv) != 2:
-    print("Usage: python script_name.py <province_abbreviation>")
-    sys.exit(1)
+        print("Usage: python script_name.py <province_abbreviation>")
+        sys.exit()
 
 province = sys.argv[1].upper()
 
 valid_provinces = ["AB", "BC", "MB", "NB", "NL", "NS", "NT", "NU", "ON", "PE", "QC", "SK", "YT"]
 if province not in valid_provinces:
-    print(f"Invalid province abbreviation: {province}")
-    sys.exit(1)
+        print(f"Invalid province abbreviation: {province}")
+        sys.exit()
 
-shapefile_path = "data/Canada/Can_Mjr_Cities.shp"
-
+shapefile_path = r"../../../data/Canada/Can_Mjr_Cities.shp"
+env.workspace=shapefile_path
+    # Move the SearchCursor inside the main function
 with arcpy.da.SearchCursor(shapefile_path, ["Name", "Prov"], where_clause=f"{arcpy.AddFieldDelimiters(shapefile_path, 'Prov')} = '{province}'") as cursor:
-    # 初始化城市列表
-    cities = []
+        cities = []
+        city_count = 0
 
-    # 循环遍历数据并打印城市名和省份
-    for row in cursor:
-        city_name, province = row
-        print(f"{city_name}, {province}")
-        
-        # 将城市名添加到列表中
-        cities.append(city_name)
+        for row in cursor:
+            city_name, province = row
+            city_count += 1
+            print(f"{city_name}, {province}")
 
-# 打印城市总数
-city_count = len(cities)
 print(f"\nThere are {city_count} cities in {province}.")
+
