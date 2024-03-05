@@ -1,5 +1,6 @@
 import arcpy
 from arcpy import env
+from arcpy import env
 import sys
 
 # Check if the province abbreviation argument is provided
